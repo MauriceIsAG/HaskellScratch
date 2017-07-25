@@ -129,21 +129,7 @@ insertAt xs x n = slice xs 1 (n-1) ++ [x] ++ slice xs n (length xs)
 
 range :: Int -> Int -> [Int]
 range n1 n2 = [n1..n2]
-{-| test this later-}
+
 combinations :: Int -> [a] -> [[a]]
 combinations 0 _ = [[]]
-combinations _ [] = [[]]
-combinations n s = f n 1 s (map (\x -> [x]) s)
-  where f n1 n2 s1 s2
-          | n1 == n2 = s2
-          | otherwise = f n1 (n2 + 1) s1 [x ++ [y] |
-                         x <- s2,
-                         y <- s1,
-                         y `notElem` x]
-      
-sieveEratosthenes :: Int -> [Int]
-sieveEratosthenes n = f n [2..n]
-  where f n [] = []
-        f n (x:xs)  = [x] ++ f n [y | y <- xs,
-                                  y 'notElem'(map (x*) [2..n])]
-  
+combinations = helper 
