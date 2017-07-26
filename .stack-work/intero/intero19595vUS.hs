@@ -130,42 +130,6 @@ insertAt xs x n = slice xs 1 (n-1) ++ [x] ++ slice xs n (length xs)
 range :: Int -> Int -> [Int]
 range n1 n2 = [n1..n2]
 
-listEq :: (Eq a) => [a] -> [a] -> Bool
-listEq [] [] = True
-listEq [] _ = False
-listEq _ [] = False
-listEq s1 s2 = False `notElem` (map (`elem`s1) s2 ++ map (`elem`s2) s1) 
-
-listNeq :: (Eq a) => [a] -> [a] -> Bool
-listNeq s1 s2
-  | listEq s1 s2 = False
-  | otherwise = True
-
-listRemoveDupes :: (Eq a) => [[a]] -> [[a]]
-listRemoveDupes [[]] = [[]]
-listRemoveDupes [] = []
-listRemoveDupes (x:xs) = [x] ++ listRemoveDupes (filter (listNeq x) xs)
-
-combinations :: (Eq a) => Int -> [a] -> [[a]]
+combinations :: Int -> [a] -> [[a]]
 combinations 0 _ = [[]]
-combinations _ [] = [[]]
-combinations n s = f n 1 s (map (\x -> [x]) s)
-  where f n1 n2 s1 s2
-          | n1 == n2 = s2
-          | otherwise = f n1 (n2 + 1) s1 (listRemoveDupes 
-                                          [x ++ [y] |
-                                          x <- s2,
-                                          y <- s1,
-                                          y `notElem` x])
-
-
-{- TODO the second combinatorics problem on the haskell website.-}
-
-
-      
-sieveEratosthenes :: Int -> [Int]
-sieveEratosthenes n = f n [2..n]
-  where f n [] = []
-        f n (x:xs)  = [x] ++ f n [y | y <- xs,
-                                  y `notElem` (map (x*) [2..n])]
-  
+combinations = 
