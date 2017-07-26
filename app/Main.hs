@@ -161,11 +161,43 @@ combinations n s = f n 1 s (map (\x -> [x]) s)
 
 {- TODO the second combinatorics problem on the haskell website.-}
 
+isDisjoint :: (Eq a) => [a] -> [a] -> Bool
+isDisjoint [] [] = False
+isDisjoint [] _ = True
+isDisjoint _ [] = True
+isDisjoint (x:xs) s2
+  | x `elem` s2 = False
+  | otherwise = isDisjoint xs s2
 
-      
+{-| TODO Finish this.-}
+grouper :: (Eq a) => [Int] -> [a] -> [[[a]]]
+grouper n s = g (map (`combinations`s) n)
+      where f x s = filter (isDisjoint x) s
+            g (x:y:s) 
+              |y == [] = []
+              |otherwise = map (\z -> g (f z y) (y:s)) x
+
 sieveEratosthenes :: Int -> [Int]
 sieveEratosthenes n = f n [2..n]
   where f n [] = []
         f n (x:xs)  = [x] ++ f n [y | y <- xs,
                                   y `notElem` (map (x*) [2..n])]
-  
+
+isPrime :: Int -> Bool
+isPrime n = n `elem` (sieveEratosthenes n)
+
+gcd :: Int -> Int -> Int
+gcd n1 n2
+  | n1 == n2 = n1
+  | n1 > n2 = gcd (n1 - n2) n2
+  | otherwise = gcd (n2 - n1) n1
+
+isCoPrime :: Int -> Int -> Bool
+isCoPrime n1 n2
+  | (gcd n1 n2) == 1 = True
+  | otherwise = False
+
+eulerTotient :: Int -> Int
+eulerTotient n = length (map (isCoPrime n) [1..n])
+
+
