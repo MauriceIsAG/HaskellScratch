@@ -208,3 +208,40 @@ isCoPrime n1 n2
 eulerTotient :: Int -> Int
 eulerTotient n = length (filter id (map (isCoPrime n) [1..n]))
 
+primeFactors :: Int -> [Int]
+primeFactors n
+  |isPrime n = [n]
+  |otherwise = [f] ++ primeFactors (n / f)
+     where f = frst (head (filter ((x,y) ->
+                       y == 0) (map (\x -> 
+                                       (x, (n `mod` x))) 
+                                (sieveEratosthenes n))))
+
+encodePrimeFactors :: Int -> [(Int, Int)]
+encodePrimeFactors = encode . primeFactors
+
+eulerTotient' :: Int -> Int
+eulerTotient' n = foldr (*) 1 
+                  . map (\(x, y) -> 
+                           (y-1) * y ** (x - 1)) 
+                  . encodePrimeFactors $ n
+
+primesRange :: Int -> Int -> [Int]
+primesRange l u = filter (>=l) (sieveEratosthenes u)
+
+goldbach :: Int -> (Int,Int)
+goldbach n = second
+             . head 
+             . filter (\(x, _) -> x == n)
+             . map (\[x,y] -> ((x+y),(x,y)))
+             . comibinations 2  
+             . sieveEratosthenes $ n
+
+goldbachList :: Int -> Int -> [(Int,Int)]
+goldbachList l u = map goldbach 
+                    . dropWhile (<= l) 
+                    . takeWhile (<= u) $ [2,4,6 ..]
+
+grayC :: Int -> [String]
+grayC n = combinations n $ replicate n '1' ++ replicate n '0'
+
