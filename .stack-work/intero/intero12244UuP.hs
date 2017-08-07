@@ -279,7 +279,10 @@ traverse BSTRight (Branch _ _ Empty) = Empty
 traverse BSTLeft (Branch _ x _) = x
 traverse BSTRight (Branch _ _ x) = x
 
+
+
 isBalanced :: BSTNode a -> Bool
+isBalanced x = 
 
 possibilities :: BSTNode Char -> [BSTNode Char]
 possibilities (Branch 'x' Empty Empty) =  [Branch 'x' Empty (leaf 'x'), Branch 'x' (leaf 'x') Empty]

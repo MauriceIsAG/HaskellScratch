@@ -34,8 +34,7 @@ myReverse :: [a] -> [a]
 myReverse [] = []
 myReverse (x:xs) = (myReverse xs) ++ [x]
 
-{-|k/intero/intero-script1846t8D
-    ~/Haskell/Scratch/app/Ma Checks if list is a palindrome.-}
+{-| Checks if list is a palindrome.-}
 myPalindrome :: (Eq a) => [a] -> Bool
 myPalindrome x
   | x == (reverse x) = True
@@ -260,34 +259,3 @@ grayC :: Int -> [String]
 grayC n = combinationsWithDupes n 
           $ replicate n '1' ++ replicate n '0'
 
-
-
-
-data BSTNode a = Branch a (BSTNode a) (BSTNode a)
-               | Empty
-               deriving (Show, Eq)
-
-data BSTDirection = BSTLeft
-                  | BSTRight
-
-leaf :: a -> BSTNode a
-leaf x = Branch x Empty Empty
-
-traverse :: BSTDirection -> BSTNode a -> BSTNode a
-traverse BSTLeft (Branch _ Empty _) = Empty
-traverse BSTRight (Branch _ _ Empty) = Empty
-traverse BSTLeft (Branch _ x _) = x
-traverse BSTRight (Branch _ _ x) = x
-
-isBalanced :: BSTNode a -> Bool
-
-possibilities :: BSTNode Char -> [BSTNode Char]
-possibilities (Branch 'x' Empty Empty) =  [Branch 'x' Empty (leaf 'x'), Branch 'x' (leaf 'x') Empty]
-possibilities (Branch 'x' x Empty) = [Branch 'x' x (leaf 'x')]
-possibilities (Branch 'x' Empty x) = [Branch 'x' (leaf 'x') x]
-possibilities (Branch 'x' x y) = (filter isBalanced . possibilities $ x) ++ (filter isBalanced . possibilities $ y)
-
-cBallTree :: Int -> [BSTNode Char]
-cBallTree 1 = [leaf 'x']
-cBallTree n = cBallTreeIter n . cBallTree $ 1
-              

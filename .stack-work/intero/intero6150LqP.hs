@@ -30,7 +30,10 @@ myLength (_:xs) = 1 + (myLength xs)
 
 
 {-| Reverse a list-}
-myReverse :: [a] -> [a]
+myReverse :: [
+Recent Files:
+    ~/Haskell/Scratch/app/Main.hs
+    ~/Haskell/Sca] -> [a]
 myReverse [] = []
 myReverse (x:xs) = (myReverse xs) ++ [x]
 
@@ -257,37 +260,12 @@ goldbachList l u = map goldbach
                     . dropWhile (<= l) $ [2,4 .. u]
 
 grayC :: Int -> [String]
-grayC n = combinationsWithDupes n 
+xgrayC n = combinationsWithDupes n 
           $ replicate n '1' ++ replicate n '0'
 
-
-
-
-data BSTNode a = Branch a (BSTNode a) (BSTNode a)
+data BSTNode a = Branch a BSTNode BSTNode
                | Empty
-               deriving (Show, Eq)
 
-data BSTDirection = BSTLeft
-                  | BSTRight
+leaf :: BSTNode a
+leaf = Branch a Empty Empty
 
-leaf :: a -> BSTNode a
-leaf x = Branch x Empty Empty
-
-traverse :: BSTDirection -> BSTNode a -> BSTNode a
-traverse BSTLeft (Branch _ Empty _) = Empty
-traverse BSTRight (Branch _ _ Empty) = Empty
-traverse BSTLeft (Branch _ x _) = x
-traverse BSTRight (Branch _ _ x) = x
-
-isBalanced :: BSTNode a -> Bool
-
-possibilities :: BSTNode Char -> [BSTNode Char]
-possibilities (Branch 'x' Empty Empty) =  [Branch 'x' Empty (leaf 'x'), Branch 'x' (leaf 'x') Empty]
-possibilities (Branch 'x' x Empty) = [Branch 'x' x (leaf 'x')]
-possibilities (Branch 'x' Empty x) = [Branch 'x' (leaf 'x') x]
-possibilities (Branch 'x' x y) = (filter isBalanced . possibilities $ x) ++ (filter isBalanced . possibilities $ y)
-
-cBallTree :: Int -> [BSTNode Char]
-cBallTree 1 = [leaf 'x']
-cBallTree n = cBallTreeIter n . cBallTree $ 1
-              
