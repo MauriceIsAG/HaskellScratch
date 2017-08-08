@@ -279,13 +279,20 @@ traverse BSTRight (Branch _ _ Empty) = Empty
 traverse BSTLeft (Branch _ x _) = x
 traverse BSTRight (Branch _ _ x) = x
 
+foldTree :: (a -> BSTNode b -> a) -> a -> BSTNode b -> a
+foldTree f x Empty = x
+foldTree f x y = 
+
 isBalanced :: BSTNode a -> Bool
 
+
 possibilities :: BSTNode Char -> [BSTNode Char]
-possibilities (Branch 'x' Empty Empty) =  [Branch 'x' Empty (leaf 'x'), Branch 'x' (leaf 'x') Empty]
+possibilities (Branch 'x' Empty Empty) =  [Branch 'x' Empty (leaf 'x'),
+                                           Branch 'x' (leaf 'x') Empty]
 possibilities (Branch 'x' x Empty) = [Branch 'x' x (leaf 'x')]
 possibilities (Branch 'x' Empty x) = [Branch 'x' (leaf 'x') x]
-possibilities (Branch 'x' x y) = (filter isBalanced . possibilities $ x) ++ (filter isBalanced . possibilities $ y)
+possibilities (Branch 'x' x y) = (filter isBalanced . possibilities $ x) 
+                                 ++ (filter isBalanced . possibilities $ y)
 
 cBallTree :: Int -> [BSTNode Char]
 cBallTree 1 = [leaf 'x']
